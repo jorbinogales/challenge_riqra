@@ -6,7 +6,7 @@ export const DatabaseConfiguration: TypeOrmModuleAsyncOptions = {
   inject: [ConfigService],
   useFactory: async (configService: ConfigService) => {
     return {
-      type: 'mysql',
+      type: 'postgres',
       host: configService.get<string>('DB_HOST'),
       username: configService.get<string>('DB_USERNAME'),
       password: configService.get<string>('DB_PASSWORD'),
