@@ -12,10 +12,9 @@ async function bootstrap() {
   const configService: EasyConfiguration = app.get(EasyconfigService);
   const objConfig = configService['envConfig'];
   console.log(objConfig);
-  const port_number = objConfig.PORT || 80;
+  const port_number = objConfig.PORT || 5000;
   console.log(port_number);
-  await app.listen(port_number, "0.0.0.0", function() {
-    console.log("Listening on Port 5000");
-  });
+  await app.listen(port_number);
+  
 }
 bootstrap();
