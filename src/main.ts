@@ -14,6 +14,8 @@ async function bootstrap() {
   console.log(objConfig);
   const port_number = objConfig.PORT || 5000;
   console.log(port_number);
-  await app.listen(port_number);
+  await app.listen(port_number, "0.0.0.0", function() {
+    console.log("Listening on Port 5000");
+  });
 }
 bootstrap();

@@ -2,9 +2,6 @@
   "name": "backend-challenge-riqra",
   "version": "0.0.1",
   "description": "",
-  "engines": {
-    "node": "14.16.1"
-  },
   "author": "",
   "private": true,
   "license": "UNLICENSED",
