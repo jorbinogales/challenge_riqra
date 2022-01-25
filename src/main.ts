@@ -9,9 +9,9 @@ require('dotenv').config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const configService: EasyConfiguration = app.get(EasyconfigService);
-  const objConfig = configService['envConfig'];
-  const port_number = objConfig.PORT;
+  // const configService: EasyConfiguration = app.get(EasyconfigService);
+  // const objConfig = configService['envConfig'];
+  const port_number = process.env.PORT || 3000;
   await app.listen(port_number);
   
 }
