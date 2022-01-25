@@ -2,6 +2,9 @@
   "name": "backend-challenge-riqra",
   "version": "0.0.1",
   "description": "",
+  "engines": {
+    "node": "14.16.1"
+  },
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -9,7 +12,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "nest start",
+    "start": "node index.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main.js",
