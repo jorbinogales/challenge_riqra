@@ -11,9 +11,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   const configService: EasyConfiguration = app.get(EasyconfigService);
-  const objConfig = configService['envConfig'];
-  const port_number = objConfig.PORT || 5000;
-  await app.listen(port_number);
+  await app.listen(process.env.PORT || 5000);
   
 }
 bootstrap();
