@@ -16,7 +16,7 @@
     "start": "node dist/main.js",
     "start:prod": "node dist/main.js",
     "prestart:prod": "npm run build",
-    "postinstall": "tsc — sourceMap false",
+    "postinstall": "npm run prestart:prod",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
