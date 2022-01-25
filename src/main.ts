@@ -14,6 +14,7 @@ async function bootstrap() {
   console.log(objConfig);
   const port_number = objConfig.PORT || 5000;
   console.log(port_number);
+  app.enableShutdownHooks();
   await app.listen(port_number);
   
 }
