@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { use } from 'passport';
 import { SupplierEntity } from 'src/supplier/entities/supplier.entity';
 import { SupplierService } from 'src/supplier/supplier.service';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { CreateProductDto } from './dto/create-product.dto';
+import { FiltrosDto } from './dto/filtros.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductEntity } from './entities/product.entity';
 import { ProductRepository } from './repository/product.repository';
@@ -21,5 +24,42 @@ export class ProductService {
     const supplier = await this._supplierService.getById(supplier_id);
     return await this._productRepository.createProduct(createProduct, supplier);
   }
+
+
+  /* 
+  GET PRODUCT BY PROVIDER OR SUPPLIER 
+  */
+ async getProductByProvider(
+   user: UserEntity,
+   filtros: FiltrosDto,
+   ): Promise<ProductEntity[]>{
+
+  const { name , price } = filtros;
+
+
+  const product = this._productRepository
+    .createQueryBuilder('product')
+    .leftJoinAndSelect('product.supplier_id', 'supplier_id')
+    .where('supplier_id.id = :supplier_id', {
+      supplier_id: user.supplier_id.id
+    })
+    
+    //-----------------------------------------------------
+    if (name) {
+      product.andWhere('product.name LIKE :name', {
+        name: `%${name}%`,
+      });
+    }
+    //----------------------------------------------------------
+
+    //-----------------------------------------------------
+    if (price) {
+      product.andWhere('product.price LIKE :price', {
+        price: `%${price}%`,
+      });
+    }
+    //----------------------------------------------------------
+    return await product.getMany();
+ }
 
 }

@@ -9,6 +9,7 @@ import { ConfigurationModule } from './configs/configuration.module';
 import { ProductModule } from './product/product.module';
 import { SupplierModule } from './supplier/supplier.module';
 import { AuthModule } from '@app/auth';
+import { RoleModule } from './role/role.module';
 
 require('dotenv').config();
 
@@ -21,6 +22,7 @@ require('dotenv').config();
     TypeOrmModule.forRootAsync(DatabaseConfiguration),
     ConfigurationModule,
     UserModule,
+    RoleModule,
     SupplierModule,
     ProductModule,
     AuthModule,

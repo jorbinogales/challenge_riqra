@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { EasyconfigService } from 'nestjs-easyconfig';
 import { env } from 'process';
@@ -8,10 +9,10 @@ require('dotenv').config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  // const configService: EasyConfiguration = app.get(EasyconfigService);
-  // const objConfig = configService['envConfig'];
-  const port_number = process.env.PORT || 3000;
+  app.useGlobalPipes(new ValidationPipe());
+  const configService: EasyConfiguration = app.get(EasyconfigService);
+  const objConfig = configService['envConfig'];
+  const port_number = objConfig.PORT || 5000;
   await app.listen(port_number);
   
 }
