@@ -12,8 +12,8 @@ async function bootstrap() {
   const configService: EasyConfiguration = app.get(EasyconfigService);
   const objConfig = configService['envConfig'];
 
-  console.log(objConfig);
+  const port = objConfig.PORT || 5000;
 
-  await app.listen(objConfig.PORT);
+  await app.listen(port);
 }
 bootstrap();
