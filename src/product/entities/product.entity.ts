@@ -1,5 +1,5 @@
-import { SupplierEntity } from "src/supplier/entities/supplier.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { SupplierEntity } from "./../../supplier/entities/supplier.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('product')
 export class ProductEntity {
@@ -16,5 +16,14 @@ export class ProductEntity {
     @ManyToOne(() => SupplierEntity, supplier => supplier.id, { eager: true })
     @JoinColumn({ name: 'supplier_id'})
     supplier_id: SupplierEntity;
+
+    @CreateDateColumn()
+    created_at?: Date;
+
+    @UpdateDateColumn()
+    updated_at?: Date;
+
+    @Column({ type: 'timestamp', nullable: true })
+    deleted_at?: Date;
 
 }

@@ -9,6 +9,7 @@ import { ConfigurationModule } from './configs/configuration.module';
 import { ProductModule } from './product/product.module';
 import { SupplierModule } from './supplier/supplier.module';
 import { AuthModule } from '@app/auth';
+import { MailModule } from './mail/mail.module';
 
 require('dotenv').config();
 
@@ -24,6 +25,7 @@ require('dotenv').config();
     SupplierModule,
     ProductModule,
     AuthModule,
+    MailModule,
   ],
   providers: [EasyConfiguration],
 })

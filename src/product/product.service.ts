@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { use } from 'passport';
-import { SupplierEntity } from 'src/supplier/entities/supplier.entity';
-import { SupplierService } from 'src/supplier/supplier.service';
-import { UserEntity } from 'src/user/entities/user.entity';
+import { SupplierService } from './../supplier/supplier.service';
+import { UserEntity } from './../user/entities/user.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FiltrosDto } from './dto/filtros.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -43,6 +41,7 @@ export class ProductService {
     .where('supplier_id.id = :supplier_id', {
       supplier_id: user.supplier_id.id
     })
+    .andWhere('product.deleted_at IS NULL')
     
     //-----------------------------------------------------
     if (name) {
@@ -61,5 +60,41 @@ export class ProductService {
     //----------------------------------------------------------
     return await product.getMany();
  }
+
+ /* 
+ DELETE PRODUCT 
+ */
+  async deleteProduct(id:number): Promise<any>{
+    const product = await this.getProduct(id);
+    return await this._productRepository.deleteProduct(product);
+  }
+
+  /* 
+ UPDATE PRODUCT 
+ */
+  async updateProduct(id:number, updateProductDto: UpdateProductDto): Promise<any>{
+    const { supplier_id } = updateProductDto;
+    const product = await this.getProduct(id);
+    let supplier = product.supplier_id;
+    if(supplier_id){
+       supplier = await this._supplierService.getById(supplier_id)
+    }
+    return await this._productRepository.updateProduct(product, updateProductDto, supplier);
+  }
+  
+  
+
+  /* 
+  GET PRODUCT BY ID
+  */
+  async getProduct(id:number): Promise<ProductEntity>{
+    return await this._productRepository.findOne({
+      where: {
+        id,
+        deleted_at: null,
+      }
+    })
+  }
+
 
 }

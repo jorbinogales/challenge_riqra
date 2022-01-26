@@ -1,8 +1,8 @@
-import { SupplierEntity } from 'src/supplier/entities/supplier.entity';
-import { AfterLoad, BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { SupplierEntity } from './../../supplier/entities/supplier.entity';
+import { AfterLoad, BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from '@nestjs/common';
-import { RoleEntity } from 'src/role/entity/role.entity';
+import { RoleEntity } from './../../role/entity/role.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -23,16 +23,16 @@ export class UserEntity {
   @JoinColumn({ name: 'role_id'})
   role_id: RoleEntity;
 
-  private tempPassword: string;
+  private tempPassword?: string;
 
   @AfterLoad()
-  private loadTempPassword(): void {
+  loadTempPassword? = () => {
       this.tempPassword = this.password;
   }
 
   @BeforeInsert()
   @BeforeUpdate()
-  async encryptPassword(): Promise<void> {
+  encryptPassword? =  async (): Promise<void> => {
       if (this.tempPassword !== this.password) {
           try {
             this.password = await bcrypt.hash(this.password, 10)

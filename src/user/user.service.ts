@@ -3,6 +3,7 @@ import { AuthService } from '@app/auth';
 import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { map, switchMap, pipe } from 'rxjs';
+import { MailService } from 'src/mail/mail.service';
 import { RoleEntity } from 'src/role/entity/role.entity';
 import { Roles } from 'src/role/interface/role.interface';
 import { RoleService } from 'src/role/role.service';
@@ -21,6 +22,7 @@ export class UserService {
     private readonly _authService: AuthService,
     private readonly _supplierService: SupplierService,
     private readonly _roleService: RoleService,
+    private readonly _mailService: MailService,
   ){}
 
   
@@ -29,13 +31,14 @@ export class UserService {
     */
     async login(loginUserDto: LoginUserDto, role: Roles): Promise<any>{
       const { email, password } = loginUserDto;
-      const user = await this.fidByEmail(email);
+      const user = await this.findByEmail(email);
       /* CREATE USER */
       if(!user){
           const supplier = await this._supplierService.getRandom();
           const role_entity = await this._roleService.findByRol(role);
           const user = await this.createUser(loginUserDto, supplier, role_entity);
           const token = await this._authService.createToken(user);
+          await this._mailService.sendWelcome(user);
           return {
               statusCode: HttpStatus.ACCEPTED,
               access_token: token,
@@ -57,7 +60,7 @@ export class UserService {
   /*
   FIND USER CREDENTIALS FOR LOGIN  
   */
-  async fidByEmail(email: string): Promise<UserEntity>{
+  async findByEmail(email: string): Promise<UserEntity>{
     return await this._userRepository.findOne({
       where: {
         email: email,

@@ -1,6 +1,6 @@
-import { ProductEntity } from "src/product/entities/product.entity";
+import { ProductEntity } from "./../../product/entities/product.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { UserEntity } from "src/user/entities/user.entity";
+import { UserEntity } from "./../../user/entities/user.entity";
 
 @Entity('supplier')
 export class SupplierEntity {

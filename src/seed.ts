@@ -9,12 +9,15 @@ require('dotenv').config();
 
 async function bootstrap() {
 
-    await NestFactory.createApplicationContext(SeederModule).then(appContext => {
+    NestFactory.createApplicationContext(SeederModule).then(async appContext => {
         
         const logger = appContext.get(Logger);
         const supplierSeeder = appContext.get(SupplierSeederService);
+        const productSeeder = appContext.get(ProductSeederService);
+        const roleSeeder = appContext.get(RoleSeederService);
+        const userSeeder = appContext.get(UserSeederService);
 
-        supplierSeeder.seed()
+        await supplierSeeder.seed()
             .then(() => {
                 logger.debug('supplier Seeding Complete complete!');
             })
@@ -22,19 +25,8 @@ async function bootstrap() {
                 logger.error('supplier Seeding failed!');
                 throw error;
             })
-            .finally(() => appContext.close());
-
-    })
-    .catch(error => {
-        throw error;
-    });
-
-    await NestFactory.createApplicationContext(SeederModule).then(appContext => {
         
-        const logger = appContext.get(Logger);
-        const productSeeder = appContext.get(ProductSeederService);
-
-        productSeeder.seed()
+        await productSeeder.seed()
             .then(() => {
                 logger.debug('Product Seeding Complete complete!');
             })
@@ -42,20 +34,8 @@ async function bootstrap() {
                 logger.error('Product Seeding failed!');
                 throw error;
             })
-            .finally(() => appContext.close());
-
-    })
-    .catch(error => {
-        throw error;
-    });
-
-
-    await NestFactory.createApplicationContext(SeederModule).then(appContext => {
         
-        const logger = appContext.get(Logger);
-        const roleSeeder = appContext.get(RoleSeederService);
-
-        roleSeeder.seed()
+        await roleSeeder.seed()
             .then(() => {
                 logger.debug('Role Seeding Complete complete!');
             })
@@ -63,20 +43,8 @@ async function bootstrap() {
                 logger.error('Role Seeding failed!');
                 throw error;
             })
-            .finally(() => appContext.close());
-
-    })
-    .catch(error => {
-        throw error;
-    });
-
-
-    await NestFactory.createApplicationContext(SeederModule).then(appContext => {
         
-        const logger = appContext.get(Logger);
-        const roleSeeder = appContext.get(UserSeederService);
-
-        roleSeeder.seed()
+        await userSeeder.seed()
             .then(() => {
                 logger.debug('Admin Seeding Complete complete!');
             })
@@ -84,7 +52,6 @@ async function bootstrap() {
                 logger.error('Admin Seeding failed!');
                 throw error;
             })
-            .finally(() => appContext.close());
 
     })
     .catch(error => {

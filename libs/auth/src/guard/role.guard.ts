@@ -27,7 +27,6 @@ export class RolesGuard implements CanActivate {
         let hasPermission = false;
         const role: RoleEntity = user.role_id;
         const hasRole = roles.indexOf(role.role);
-        console.log(hasRole);
         if (hasRole != -1) {
             hasPermission = true;
         }

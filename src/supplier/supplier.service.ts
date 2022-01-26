@@ -47,8 +47,11 @@ export class SupplierService {
     GET RANDOM SUPPLIER 
   */
  async getRandom(): Promise<SupplierEntity>{
-    const suppliers =  await this._supplierRepository.find({});
-    const randomElement = suppliers[Math.floor(Math.random() * suppliers.length)];
+    const suppliers =  await this._supplierRepository.find();
+    let randomElement = null;
+    if(suppliers){
+      randomElement = suppliers[Math.floor(Math.random() * suppliers.length)];
+    }
     return randomElement
  }
 

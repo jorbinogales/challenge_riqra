@@ -13,6 +13,12 @@
     }
   },
   "compilerOptions": {
+    "assets": [
+      {
+        "include": "**/*.hbs",
+        "watchAssets": true
+      }
+    ],
     "webpack": true
   }
 }
