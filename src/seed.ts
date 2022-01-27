@@ -25,6 +25,7 @@ async function bootstrap() {
                 logger.error('supplier Seeding failed!');
                 throw error;
             })
+            
         
         await productSeeder.seed()
             .then(() => {
@@ -52,6 +53,7 @@ async function bootstrap() {
                 logger.error('Admin Seeding failed!');
                 throw error;
             })
+            .finally(() => appContext.close());
 
     })
     .catch(error => {

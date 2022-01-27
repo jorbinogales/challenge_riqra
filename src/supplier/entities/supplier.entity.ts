@@ -1,5 +1,5 @@
 import { ProductEntity } from "./../../product/entities/product.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserEntity } from "./../../user/entities/user.entity";
 
 @Entity('supplier')
@@ -16,5 +16,14 @@ export class SupplierEntity {
 
     @OneToMany(() => UserEntity, user => user.id)
     users: UserEntity[];
+
+    @CreateDateColumn()
+    created_at?: Date;
+
+    @UpdateDateColumn()
+    updated_at?: Date;
+
+    @Column({ type: 'timestamp', nullable: true })
+    deleted_at?: Date;
     
 }
